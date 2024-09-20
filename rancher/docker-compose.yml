@@ -1,0 +1,23 @@
+services:
+  rancher:
+    image: rancher/rancher:latest
+    container_name: rancher
+    restart: unless-stopped
+    privileged: true
+    expose:
+      - 80
+      - 443
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - rancher-data:/var/lib/rancher
+    networks:
+      - nginx-network
+
+volumes:
+  rancher-data:
+    
+networks:
+  nginx-network:
+    external: true

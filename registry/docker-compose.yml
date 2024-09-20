@@ -1,0 +1,28 @@
+services:
+  registry:
+    image: registry:2
+    ports:
+    - "5000:5000"
+    volumes:
+      - ./data:/var/lib/registry
+    environment:
+      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /var/lib/registry
+    networks:
+      - nginx-network
+
+  registry-ui:
+    image: joxit/docker-registry-ui:latest
+    ports:
+      - "8080:80"
+    environment:
+      - REGISTRY_TITLE=My Docker Registry
+        # - REGISTRY_URL=http://registry:5000
+      - DELETE_IMAGES=true  # Enable deletion of images from the UI
+    depends_on:
+      - registry
+    networks:
+      - nginx-network
+
+networks:
+  nginx-network:
+    external: true

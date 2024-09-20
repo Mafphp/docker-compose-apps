@@ -1,0 +1,14 @@
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    networks:
+      - nginx-network
+volumes:
+  jenkins_home:
+
+networks:
+  nginx-network:
+    external: true

@@ -1,0 +1,36 @@
+services:
+  wordpress:
+    image: wordpress:latest
+    container_name: wp-1
+    environment:
+      WORDPRESS_DB_HOST: wordpress-db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wordpress_data:/var/www/html
+    depends_on:
+      - wordpress-db
+    networks:
+      - nginx-network
+
+  wordpress-db:
+    image: mysql:5.7
+    container_name: db-1
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - nginx-network
+
+volumes:
+  wordpress_data:
+  db_data:
+
+networks:
+  nginx-network:
+    external: true
